@@ -1,0 +1,36 @@
+body {
+  background: url(http://subtlepatterns.com/patterns/grid.png);
+  background: url(http://subtlepatterns.com/patterns/grid.png);
+  font: 1em Arial, Helvetica, sans-serif;
+}
+.form__control {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #6D6B69;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #D3DBE2;
+  border-radius: 4px;
+  transition: border-color cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+  outline: 0;
+}
+/* .btn {
+  border-radius: 5px;
+  font-size: 1em;
+  margin: 5px;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  width: auto;
+  box-shadow: 0 3px 20px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
+}
+
+.btn:hover {
+  cursor: pointer;
+  text-shadow: none;
+  transform: scale(1.05);
+} */
