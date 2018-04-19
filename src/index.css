@@ -18,7 +18,7 @@ body {
   transition: border-color cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
   outline: 0;
 }
-/* .btn {
+.btn {
   border-radius: 5px;
   font-size: 1em;
   margin: 5px;
@@ -33,4 +33,4 @@ body {
   cursor: pointer;
   text-shadow: none;
   transform: scale(1.05);
-} */
+}

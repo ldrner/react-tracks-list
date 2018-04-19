@@ -1,94 +1,31 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { getTracks } from "./actions/tracks";
-import { Link } from "react-router-dom";
-import { css } from 'aphrodite'; // <- библиотека для написания инлайн стилей в js,
-// aphrodite/no-important - не добавляет !important к сгенерированным стилям - для нового проекта предпочительно
-// содержит свой автопрефиксер
-import styles from "./AppStyles";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import { Router } from "react-router";
+import createBrowserHistory from "history/createBrowserHistory";
 
-// import './App.css';
-// import RegistrationForm from "./RegistrationForm";
+import Navbar from "./Navbar";
+import Main from "./Main";
 
-// приимущество чистой ф-ции перед классом - нет необходимости биндить контекст (this),
-// проще тестировать
-// создается компонента без внутреннего состояния
-// меньше кода :)
-const App = ({tracks, onAddTrack, onFindTrack, onGetTracks, ownProps}) => {
-  // console.log("App ownProps", ownProps);
-  let trackInput = '';
-  let searchInput = '';
-  const addTrack = () => {
-    onAddTrack(trackInput.value);
-    trackInput.value = "";
-  };
-  const findTrack = () => {
-    console.log('searchInput.value :', searchInput.value);
-    onFindTrack(searchInput.value);
-  };
-  return <div>
-      <div>
-        <input className="form__control" type="text" ref={input => {
-            trackInput = input;
-          }} />
-        <button className={css(styles.btn)} onClick={addTrack}>
-          Add track
-        </button>
-      </div>
-      <div>
-        <input className="form__control" type="text" ref={input => {
-            searchInput = input;
-          }} />
-        <button className={css(styles.btn)} onClick={findTrack}>
-          Find track
-        </button>
-      </div>
-      <div>
-        <button className={css(styles.btn)} onClick={onGetTracks}>
-          Get tracks
-        </button>
-      </div>
-      <ul>
-        {tracks.map((track, index) => <li key={index}>
-            <Link to={`/tracks/${track.id}`}>{track.name}</Link>
-          </li>)}
-      </ul>
-    </div>;
+import reducers from "./reducers";
 
+const store = createStore(
+  reducers,
+  undefined,
+  composeWithDevTools(applyMiddleware(thunk))
+);
+
+const browserHistory = createBrowserHistory();
+const App = () => {
+  return <Provider store={store}>
+      <Router history={browserHistory}>
+        <div>
+          <Navbar />
+          <Main />
+        </div>
+      </Router>
+    </Provider>;
 }
-
-export default connect(
-  (state, ownProps) => ({
-    tracks: state.tracks.filter(track =>
-      track.name.includes(state.filterTracks)
-    ), // фильтруем треки относительно стейта filterTracks (поиск по имени)
-    // фильтрация на уровне смарт-компонента, стор не меняется
-    ownProps
-  }), // <- mapStateToProps, подписываемся на store
-  dispatch => ({
-    onAddTrack: name => {
-      const payload = {
-        id: Date.now().toString(),
-        name
-      };
-      dispatch({ type: "ADD_TRACK", payload: payload });
-    },
-    onFindTrack: name => {
-      dispatch({ type: "FIND_TRACK", payload: name });
-    },
-    onGetTracks: () => {
-      // переносим функцию asyncGetTracks в ./actions/tracks и имрортируем ее в App.js
-
-      // const asyncGetTracks = () => {
-      //   return dispatch => {
-      //     setTimeout(() => {
-      //       console.log('I got tracks');
-      //       dispatch({type: 'FETCH_TRACKS_SUCCESS', payload: []});
-      //     }, 2000);
-      //   }
-      // }
-      // dispatch(asyncGetTracks());
-      dispatch(getTracks());
-    }
-  }) // <- вход dispatch, выход объект методов
-)(App);
+export default App;
