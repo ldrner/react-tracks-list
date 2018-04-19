@@ -10,6 +10,6 @@ branches:
 
 deploy:
   provider: heroku
-  app: "react-tracks-list"
+  app: "arcane-badlands-93220"
   api_key:
     secure: $HEROKU_TOKEN
