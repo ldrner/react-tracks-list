@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 // создается компонента без внутреннего состояния
 // меньше кода :)
 const Tracks = ({ tracks, onAddTrack, onFindTrack, onGetTracks, ownProps }) => {
-  // console.log("Tracks ownProps", ownProps);
+  console.log("Tracks ownProps", ownProps);
   let trackInput = "";
   let searchInput = "";
   const addTrack = () => {
@@ -79,7 +79,7 @@ export default connect(
   dispatch => ({
     onAddTrack: name => {
       const payload = {
-        id: Date.now().toString(),
+        id: Number(Date.now()),
         name
       };
       dispatch({ type: "ADD_TRACK", payload: payload });
